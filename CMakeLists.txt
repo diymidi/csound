@@ -702,6 +702,15 @@ if(WIN32 AND NOT MSVC)
 set_source_files_properties(Opcodes/sfont.c PROPERTIES
     COMPILE_FLAGS -mno-ms-bitfields)
 endif()
+if(USE_GETTEXT)
+    if(BUILD_RELEASE AND (LINUX))
+        file(TO_NATIVE_PATH "${CMAKE_INSTALL_PREFIX}/${LOCALE_INSTALL_DIR}" CSOUND_TEXTDOMAIN)
+    endif()
+    if(CSOUND_TEXTDOMAIN)
+        set_source_files_properties(Top/getstring.c PROPERTIES
+            COMPILE_FLAGS -DCSOUND_TEXTDOMAIN=\\\"${CSOUND_TEXTDOMAIN}\\\")
+    endif()
+endif()
 
 set(stdopcod_SRCS
     Opcodes/ambicode.c
